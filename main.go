@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/hashicorp/terraform/plugin"
 	"github.com/MindTooth/terraform-provider-domeneshop/domeneshop"
+	"github.com/hashicorp/terraform/plugin"
 )
 
 func main() {

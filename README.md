@@ -1,6 +1,6 @@
 # Terraform Provider
 
-Attempt at a Domeneshop provider for Terraform.
+Attempt at creating a Terraform-provider for [DomainNameShop](https://domainname.shop/).
 
 [API](https://api.domeneshop.no/)
 

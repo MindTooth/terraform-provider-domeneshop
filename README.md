@@ -4,6 +4,14 @@ Attempt at creating a Terraform-provider for [Domeneshop AS](https://domainname.
 
 [API](https://api.domeneshop.no/)
 
+### Data
+
+* [Data](https://api.domeneshop.no/docs/index.html#id4)
+
+### Resource
+
+* [DNS](https://api.domeneshop.no/docs/index.html#dns)
+
 ## Guides
 
 * [Official guide](https://www.terraform.io/docs/extend/writing-custom-providers.html)

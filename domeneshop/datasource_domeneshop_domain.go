@@ -2,7 +2,6 @@ package domeneshop
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/MindTooth/go-domeneshop"
 	"github.com/antihax/optional"
@@ -20,10 +19,16 @@ func dataSourceDomeneshopDomain() *schema.Resource {
 				Description:  "The domain to search id for",
 				ValidateFunc: validation.NoZeroValues,
 			},
-			"jens": {
+			// Computed
+			"domain_id": {
 				Type:        schema.TypeInt,
 				Computed:    true,
 				Description: "The id of the domain",
+			},
+			"status": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "Domain active or not",
 			},
 		},
 	}
@@ -37,11 +42,6 @@ func dataSourceDomeneshopDomainRead(d *schema.ResourceData, m interface{}) error
 
 	domain, resp, err := client.DomainsApi.GetDomains(*ctx, &domeneshop.GetDomainsOpts{Domain: optional.NewString(name)})
 
-	log.Println(resp)
-	fmt.Println(resp)
-
-	log.Println(domain)
-
 	if err != nil {
 		if resp != nil && resp.StatusCode == 404 {
 			return fmt.Errorf("domain not found: %s", err)
@@ -50,7 +50,8 @@ func dataSourceDomeneshopDomainRead(d *schema.ResourceData, m interface{}) error
 	}
 
 	d.SetId(domain[0].Domain)
-	d.Set("jens", domain[0].Id)
+	d.Set("domain_id", domain[0].Id)
+	d.Set("status", domain[0].Status)
 
 	return nil
 }

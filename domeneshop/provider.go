@@ -6,7 +6,7 @@ import (
 )
 
 func Provider() terraform.ResourceProvider {
-	return &schema.Provider{
+	p := &schema.Provider{
 		Schema: map[string]*schema.Schema{
 			"token": {
 				Type:        schema.TypeString,
@@ -23,15 +23,33 @@ func Provider() terraform.ResourceProvider {
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"domeneshop_domain": dataSourceDomeneshopDomain(),
+			"domeneshop_record": dataSourceDomeneshopRecord(),
 		},
-		ConfigureFunc: providerConfigure,
+		/*
+			ResourcesMap: map[string]*schema.Resource{
+				"domeneshop_record": resourceDomeneshopRecord(),
+			},
+		*/
 	}
+
+	p.ConfigureFunc = func(d *schema.ResourceData) (interface{}, error) {
+		terraformVersion := p.TerraformVersion
+		if terraformVersion == "" {
+			// Terraform 0.12 introduced this field to the protocol
+			// We can therefore assume that if it's missing it's 0.10 or 0.11
+			terraformVersion = "0.11+compatible"
+		}
+		return providerConfigure(d, terraformVersion)
+	}
+
+	return p
 }
 
-func providerConfigure(d *schema.ResourceData) (interface{}, error) {
+func providerConfigure(d *schema.ResourceData, terraformVersion string) (interface{}, error) {
 	config := Config{
-		Token:  d.Get("token").(string),
-		Secret: d.Get("secret").(string),
+		Token:            d.Get("token").(string),
+		Secret:           d.Get("secret").(string),
+		TerraformVersion: terraformVersion,
 	}
 
 	return config.Client()

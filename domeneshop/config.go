@@ -2,15 +2,15 @@ package domeneshop
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/MindTooth/go-domeneshop"
 )
 
 type Config struct {
-	Token  string
-	Secret string
-
-	terraformVersion string
+	Token            string
+	Secret           string
+	TerraformVersion string
 }
 
 type Client struct {
@@ -30,7 +30,9 @@ func (c *Client) getContext() *context.Context {
 
 func (c *Config) Client() (*Client, error) {
 	cfg := domeneshop.NewConfiguration()
-	cfg.Debug = true
+
+	cfg.UserAgent = fmt.Sprintf("Terraform/%s", c.TerraformVersion)
+
 	doClient := domeneshop.NewAPIClient(cfg)
 
 	ctx := context.WithValue(context.Background(), domeneshop.ContextBasicAuth, domeneshop.BasicAuth{

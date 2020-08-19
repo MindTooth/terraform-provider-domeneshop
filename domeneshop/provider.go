@@ -22,8 +22,9 @@ func Provider() terraform.ResourceProvider {
 			},
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"domeneshop_domain": dataSourceDomeneshopDomain(),
-			"domeneshop_record": dataSourceDomeneshopRecord(),
+			"domeneshop_domain":  dataSourceDomeneshopDomain(),
+			"domeneshop_forward": dataSourceDomeneshopForward(),
+			"domeneshop_record":  dataSourceDomeneshopRecord(),
 		},
 		/*
 			ResourcesMap: map[string]*schema.Resource{

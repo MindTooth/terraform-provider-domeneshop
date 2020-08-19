@@ -49,7 +49,7 @@ func dataSourceDomeneshopDomainRead(d *schema.ResourceData, m interface{}) error
 		return fmt.Errorf("error getting dns domains: %v", err)
 	}
 
-	d.SetId(domain[0].Domain)
+	d.SetId(fmt.Sprint(domain[0].Id))
 	d.Set("domain_id", domain[0].Id)
 	d.Set("status", domain[0].Status)
 

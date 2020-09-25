@@ -28,6 +28,7 @@ func Provider() terraform.ResourceProvider {
 		},
 		/*
 			ResourcesMap: map[string]*schema.Resource{
+				"domeneshop_forward": resourceDomeneshopForward(),
 				"domeneshop_record": resourceDomeneshopRecord(),
 			},
 		*/
